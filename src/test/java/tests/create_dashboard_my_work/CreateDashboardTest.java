@@ -8,38 +8,37 @@ import org.testng.annotations.Test;
 import pageobjects.dashboard_mywork.CreateDashboardPage;
 import pageobjects.dashboard_mywork.DashboardDetail;
 import pageobjects.login.LoginPage;
+import utils.PageFactoryManager;
+
 public class CreateDashboardTest extends BaseTest {
     @BeforeMethod(alwaysRun = true)
-    public void login(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.login(Constant.EMAIL, Constant.PASSWORD);
+    public void login() throws Exception{
+        PageFactoryManager.get(LoginPage.class).login(Constant.EMAIL, Constant.PASSWORD);
     }
     @Test(description = "confirm initializing the screen create dashboard")
-    public void confirmInitialScreen() throws InterruptedException {
-        CreateDashboardPage createDashboardPage = new CreateDashboardPage(getDriver());
-        DashboardDetail dashboardDetail = new DashboardDetail(getDriver());
+    public void confirmInitialScreen() throws Exception {
         // check information of pop up create new
-        createDashboardPage.clickButtonCreate();
-        createDashboardPage.checkInfoDefaultPopupCreateNew();
-        createDashboardPage.clickOptionCreateDashboard()
+        PageFactoryManager.get(CreateDashboardPage.class).clickButtonCreate();
+        PageFactoryManager.get(CreateDashboardPage.class).checkInfoDefaultPopupCreateNew();
+        PageFactoryManager.get(CreateDashboardPage.class).clickOptionCreateDashboard()
                 .checkInfoPopUpCreateDashboard();
         // check button cancel
-        createDashboardPage.clickButtonCancel()
+        PageFactoryManager.get(CreateDashboardPage.class).clickButtonCancel()
                 .checkPopUpCreateDashboardClosed()
                 .clickOptionCreateDashboard()
                 .checkInfoPopUpCreateDashboard();
         //check button add
-        createDashboardPage.createNewDashboard("aah", "tag1")
+        PageFactoryManager.get(CreateDashboardPage.class).createNewDashboard("aah", "tag1")
                 .clickButtonAddNewDashboard()
                 .checkActionClickButtonAddSuccessfully();
         //delete dashboard just created
-        dashboardDetail.clickButtonMenu()
+        PageFactoryManager.get(DashboardDetail.class).clickButtonMenu()
                 .selectOptionDelete()
                 .clickButtonDeleteConfirm();
         //check button close
-        createDashboardPage.clickTabInsights()
+        PageFactoryManager.get(CreateDashboardPage.class).clickTabInsights()
                 .clickButtonCreate();
-        createDashboardPage
+        PageFactoryManager.get(CreateDashboardPage.class)
                 .clickOptionCreateDashboard()
                 .clickButtonClose()
                 .checkPopUpCreateDashboardClosed()
@@ -47,25 +46,24 @@ public class CreateDashboardTest extends BaseTest {
                 .checkInfoPopUpCreateDashboard();
     }
     @Test(description = "Check create dashboard unsuccessfully")
-    public void checkCreateDashboardUnsuccessfully(){
-
+    public void checkCreateDashboardUnsuccessfully() throws Exception{
         String invalidDashboardName = "151mwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm151";
         String invalidTags = "a, b, c, d";
-        CreateDashboardPage createDashboardPage = new CreateDashboardPage(getDriver());
-        createDashboardPage.clickButtonCreate();
-        createDashboardPage.clickOptionCreateDashboard()
+
+        PageFactoryManager.get(CreateDashboardPage.class).clickButtonCreate();
+        PageFactoryManager.get(CreateDashboardPage.class).clickOptionCreateDashboard()
                 .checkInfoPopUpCreateDashboard();
         // check enter dashboard title invalid greater than 150 characters
-        createDashboardPage.createNewDashboard(invalidDashboardName, "tag1")
+        PageFactoryManager.get(CreateDashboardPage.class).createNewDashboard(invalidDashboardName, "tag1")
                 .checkActionEnterInvalidDashboardName();
         // check enter dashboard title is space
-        createDashboardPage.createNewDashboard("   ", "tag1")
+        PageFactoryManager.get(CreateDashboardPage.class).createNewDashboard("   ", "tag1")
                 .checkActionEnterSpaceIntoDashboardTitleField();
         // check enter dashboard title is empty
-        createDashboardPage.createNewDashboard("", "tag1")
+        PageFactoryManager.get(CreateDashboardPage.class).createNewDashboard("", "tag1")
                 .checkActionEnterSpaceIntoDashboardTitleField();
         // check enter tag more than 3 elements
-        createDashboardPage.createNewDashboard("aaa", invalidTags)
+        PageFactoryManager.get(CreateDashboardPage.class).createNewDashboard("aaa", invalidTags)
                 .checkActionEnterTagsMoreThan3Elements();
     }
 }

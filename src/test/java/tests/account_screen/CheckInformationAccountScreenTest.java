@@ -6,19 +6,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageobjects.account_screen.AccountScreenPage;
 import pageobjects.login.LoginPage;
+import utils.PageFactoryManager;
 
 public class CheckInformationAccountScreenTest extends BaseTest {
     @BeforeMethod(alwaysRun = true)
-        public void login(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.login(Constant.EMAIL, Constant.PASSWORD);
+    public void login() throws Exception{
+        PageFactoryManager.get(LoginPage.class).login(Constant.EMAIL, Constant.PASSWORD);
     }
 
     @Test(description = "check information initialization of screen")
-    public void checkInformationInitial(){
-
-        AccountScreenPage accountScreenPage = new AccountScreenPage(getDriver());
-        accountScreenPage.clickAvatar()
+    public void checkInformationInitial() throws Exception{
+        PageFactoryManager.get(AccountScreenPage.class).clickAvatar()
                 .clickAccountOption()
                 .checkInfoDefaultAccountScreen()
                 .checkInformationDisplayAtField()
@@ -28,13 +26,14 @@ public class CheckInformationAccountScreenTest extends BaseTest {
                 .clickButtonEditPassword()
                 .checkPopUpEditPasswordDisplay()
                 .closePopUp();
+
         //check when user click to check box notification
-        accountScreenPage.clickCheckBoxNotification()
+        PageFactoryManager.get(AccountScreenPage.class).clickCheckBoxNotification()
                 .closeToastMessage();
         //check when user click to copy api key
-        accountScreenPage.clickButtonCopyApiKey()
+        PageFactoryManager.get(AccountScreenPage.class).clickButtonCopyApiKey()
                 .verifyToastMessageCopiedDisplay();
-        accountScreenPage.clickOurDocs();
+        PageFactoryManager.get(AccountScreenPage.class).clickOurDocs();
 
     }
 }
