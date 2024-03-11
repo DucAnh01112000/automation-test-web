@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Blocklens Regression" verbose="2" configfailurepolicy="continue" parallel="classes" >
+    <test name="Blocklens Test">
+        <classes>
+            <class name="tests.dashboard.DashboardListMyWorkTest"></class>
+            <class name="tests.account_screen.CheckInformationAccountScreenTest"></class>
+            <class name="tests.create_dashboard_my_work.CreateDashboardTest"></class>
+<!--            <class name="tests.query.TestAnnotation"></class>-->
+<!--            <class name="tests.query.TestAnnotation2"></class>-->
+        </classes>
+    </test>
+</suite>
